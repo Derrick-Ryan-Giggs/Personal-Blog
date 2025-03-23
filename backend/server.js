@@ -37,9 +37,15 @@ if (process.env.NODE_ENV !== 'production') {
   }));
 }
 
+// ✅ CORS Middleware (Allow Vercel Frontend)
+app.use(cors({
+  origin: "https://personal-blog-2-eight.vercel.app", // Update with your Vercel domain
+  methods: "GET,POST,PUT,DELETE",
+  allowedHeaders: "Content-Type,Authorization"
+}));
+
 // Middleware
 app.use(express.json());
-app.use(cors());
 app.use(helmet());
 app.use(morgan('dev'));
 
