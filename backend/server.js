@@ -38,11 +38,23 @@ if (process.env.NODE_ENV !== 'production') {
 }
 
 // ✅ CORS Middleware (Allow Vercel Frontend)
+const allowedOrigins = [
+  "https://personal-blog-3.vercel.app",
+  "https://personal-blog-3-eight.vercel.app"
+];
+
 app.use(cors({
-  origin: "https://personal-blog-3-eight.vercel.app", // Update with your Vercel domain
+  origin: (origin, callback) => {
+    if (!origin || allowedOrigins.includes(origin)) {
+      callback(null, true);
+    } else {
+      callback(new Error("Not allowed by CORS"));
+    }
+  },
   methods: "GET,POST,PUT,DELETE",
   allowedHeaders: "Content-Type,Authorization"
 }));
+
 
 // Middleware
 app.use(express.json());
