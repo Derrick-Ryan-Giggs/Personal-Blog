@@ -39,7 +39,7 @@ if (process.env.NODE_ENV !== 'production') {
 
 // ✅ CORS Middleware (Allow Vercel Frontend)
 app.use(cors({
-  origin: "https://personal-blog-2-eight.vercel.app", // Update with your Vercel domain
+  origin: "https://personal-blog-3-eight.vercel.app", // Update with your Vercel domain
   methods: "GET,POST,PUT,DELETE",
   allowedHeaders: "Content-Type,Authorization"
 }));
