@@ -104,6 +104,10 @@ npm run dev
    - Output Directory: dist
    - Add environment variables in Vercel dashboard
 
+### Live Deployment
+
+You can access the live version of the blog here: [Live Blog Platform](https://personal-blog-3.vercel.app/)
+
 ## 🔄 CI/CD Pipeline
 
 The project uses GitHub Actions for continuous integration and deployment:
@@ -163,4 +167,5 @@ npm test
 
 ## 📜 License
 
-This project is licensed under the MIT License..
+This project is licensed under the MIT License.
+
