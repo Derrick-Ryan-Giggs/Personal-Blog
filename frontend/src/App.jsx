@@ -11,22 +11,6 @@ import PostEditScreen from './screens/PostEditScreen';
 import CreatePostScreen from './screens/CreatePostScreen';
 import MyPostsScreen from './screens/MyPostsScreen';
 
-// Create a separate logout handler utility
-const logoutHandler = (setUser, navigate) => {
-  try {
-    // Remove user info from local storage
-    localStorage.removeItem('userInfo');
-    
-    // Clear user state
-    setUser(null);
-    
-    // Redirect to login page
-    navigate('/login');
-  } catch (error) {
-    console.error('Logout failed', error);
-  }
-};
-
 function App() {
   const [user, setUser] = useState(null);
 
@@ -37,16 +21,28 @@ function App() {
     }
   }, []);
 
-  return (
-    <Router>
-      <div className="flex flex-col min-h-screen">
-        <Header 
-          user={user} 
-          logoutHandler={() => {
-            const navigate = useNavigate();
-            logoutHandler(setUser, navigate);
-          }} 
-        />
+  // Wrapper component to handle navigation
+  const AppContent = () => {
+    const navigate = useNavigate();
+
+    const logoutHandler = () => {
+      try {
+        // Remove user info from local storage
+        localStorage.removeItem('userInfo');
+        
+        // Clear user state
+        setUser(null);
+        
+        // Redirect to login page
+        navigate('/login');
+      } catch (error) {
+        console.error('Logout failed', error);
+      }
+    };
+
+    return (
+      <>
+        <Header user={user} logoutHandler={logoutHandler} />
         <main className="flex-grow container mx-auto px-4 py-8">
           <Routes>
             <Route path="/" element={<HomeScreen />} />
@@ -60,6 +56,14 @@ function App() {
           </Routes>
         </main>
         <Footer />
+      </>
+    );
+  };
+
+  return (
+    <Router>
+      <div className="flex flex-col min-h-screen">
+        <AppContent />
       </div>
     </Router>
   );
