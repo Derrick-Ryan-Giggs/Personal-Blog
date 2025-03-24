@@ -1,5 +1,4 @@
-// src/App.jsx
-import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';
+import { BrowserRouter as Router, Routes, Route, useNavigate } from 'react-router-dom';
 import { useState, useEffect } from 'react';
 import Header from './components/Header';
 import Footer from './components/Footer';
@@ -11,6 +10,22 @@ import PostScreen from './screens/PostScreen';
 import PostEditScreen from './screens/PostEditScreen';
 import CreatePostScreen from './screens/CreatePostScreen';
 import MyPostsScreen from './screens/MyPostsScreen';
+
+// Create a separate logout handler utility
+const logoutHandler = (setUser, navigate) => {
+  try {
+    // Remove user info from local storage
+    localStorage.removeItem('userInfo');
+    
+    // Clear user state
+    setUser(null);
+    
+    // Redirect to login page
+    navigate('/login');
+  } catch (error) {
+    console.error('Logout failed', error);
+  }
+};
 
 function App() {
   const [user, setUser] = useState(null);
@@ -25,7 +40,13 @@ function App() {
   return (
     <Router>
       <div className="flex flex-col min-h-screen">
-        <Header user={user} setUser={setUser} />
+        <Header 
+          user={user} 
+          logoutHandler={() => {
+            const navigate = useNavigate();
+            logoutHandler(setUser, navigate);
+          }} 
+        />
         <main className="flex-grow container mx-auto px-4 py-8">
           <Routes>
             <Route path="/" element={<HomeScreen />} />
